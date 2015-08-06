@@ -1,0 +1,48 @@
+define [
+  "angular"
+  "angular-ui-router"
+], (angular) ->
+
+#config path for home page
+  angular.module("employeeModule", ["ui.router"])
+  .config([
+      "$stateProvider"
+      ($stateProvider) ->
+        $stateProvider.state "employees",
+          url: "/employees"
+          templateUrl: "<%= asset_path("directives/templates/employees.tpl.html") %>"
+          controller: "HomeController"
+    ])
+  .directive('employeesLocation', ($http, $q, $interval)  ->
+    restrict: 'E'
+    template: '<div id="employees"></div>'
+
+    replace: true
+
+    link: ($scope, element, attrs) ->
+      $scope._init = ->
+        $scope._getData()
+        $interval (-> $scope._getData()), 60000
+
+      $scope.data = [['City', 'Employees']]
+
+      $scope._getData = ->
+        promise = $http.get("/api/v1/employees")
+        promise.then (response) ->
+          for key, value of response.data
+            $scope.data.push [key, response.data[key]]
+          $scope._drawRegionsMap()
+
+      $scope._drawRegionsMap = ->
+        data = google.visualization.arrayToDataTable($scope.data)
+
+        options =
+          displayMode: 'markers',
+          colorAxis:
+            colors: ['#e7711c', '#4374e0']
+
+        employeesChart = new (google.visualization.GeoChart)(document.getElementById('employees'))
+        employeesChart.draw data, options
+
+      $scope._init()
+  )

@@ -1,0 +1,49 @@
+define [
+  "angular"
+  "angular-ui-router"
+], (angular) ->
+
+#config path for home page
+  angular.module("invoiceModule", ["ui.router"])
+  .config([
+      "$stateProvider"
+      ($stateProvider) ->
+        $stateProvider.state "invoices",
+          url: "/invoices"
+          templateUrl: "<%= asset_path("directives/templates/invoices.tpl.html") %>"
+          controller: "HomeController"
+    ])
+  .directive('salesFlow', ($http, $q, $interval)  ->
+    restrict: 'E'
+    template: '<div id="sales-flow"></div>'
+
+    replace: true
+
+    link: ($scope, element, attrs) ->
+      $scope._init = ->
+        $scope._getData()
+        $interval (-> $scope._getData()), 60000
+
+      $scope.data = [['Country', 'Invoices']]
+
+      $scope._getData = ->
+        promise = $http.get("/api/v1/invoices")
+        promise.then (response) ->
+          for key, value of response.data
+            $scope.data.push [key, response.data[key]]
+          $scope._drawRegionsMap()
+
+      $scope._drawRegionsMap = ->
+        data = google.visualization.arrayToDataTable($scope.data)
+
+        options =
+          displayMode: 'markers',
+          colorAxis:
+            colors: ['#e7711c', '#4374e0']
+
+        salesFlowChart = new (google.visualization.GeoChart)(document.getElementById('sales-flow'))
+        salesFlowChart.draw data, options
+
+      $scope._init()
+
+  )

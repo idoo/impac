@@ -1,0 +1,13 @@
+{
+  "name": "dsl-generated dependencies",
+  "dependencies": {
+    "lodash": "latest",
+    "angular": "latest",
+    "angular-mocks": "latest",
+    "restangular": "latest",
+    "angular-ui-router": "0.2.13",
+    "Buttons": "latest",
+    "angular-google-chart": "latest",
+    "ngStorage": "latest",
+  }
+}

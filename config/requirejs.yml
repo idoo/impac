@@ -1,0 +1,42 @@
+paths:
+  'angular': 'angular/angular'
+    # require angular mocks for testing
+  'angular-mocks': 'angular-mocks/angular-mocks'
+  # require restangular for easily handling sending and receiving request
+  'restangular': 'restangular/dist/restangular'
+  # require angular for better handling and binding controller
+  'angular-ui-router': 'angular-ui-router/release/angular-ui-router'
+  # require jquery
+  'jquery': 'jquery'
+  'jquery_ujs': 'jquery_ujs'
+  # require lodash
+  'lodash': 'lodash/lodash'
+  # require bootstrap.js to make bootstrap components work
+  'bootstrap': 'bootstrap-sprockets'
+  # jasmine boostrap
+  'jasmine': 'jasmine'
+  'jasmine-html': 'jasmine-html'
+  'jasmine-specs': 'jasmine-specs'
+  'json2': 'json2'
+  'boot': 'boot'
+shim:
+  'jquery_ujs': ['jquery']
+  'angular':
+    exports: 'angular'
+    deps: ['jquery']
+  'angular-mocks': ['angular']
+  'lodash':
+    exports: '_'
+  'restangular': ['angular']
+  'angular-ui-router': ['angular']
+  'bootstrap': ['jquery']
+  # jasmine test bootstrap
+  'jasmine':
+    exports: 'window.jasmineRequire'
+  'jasmine-html':
+    deps: ['jasmine']
+    exports: 'window.jasmineRequire'
+  'jasmine-specs': ['boot']
+  'boot':
+    deps: ['jasmine', 'jasmine-html']
+    exports: 'window.jasmineRequire'

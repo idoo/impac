@@ -1,0 +1,13 @@
+# A sample Bowerfile
+# Check out https://github.com/42dev/bower-rails#ruby-dsl-configuration for more options
+
+# asset 'bootstrap'# auto generate bower assets
+#
+asset 'lodash'
+asset 'angular'
+asset 'angular-mocks'
+asset 'restangular'
+asset 'angular-ui-router', '0.2.13'
+asset 'Buttons'
+asset 'angular-google-chart'
+asset 'ngStorage'
